@@ -18,3 +18,29 @@ Este proyecto es una aplicación web desarrollada con **Node.js**, **Express** y
 - **PowerShell / .bat** para automatización local
 
 ## 📂 Estructura del proyecto
+Inventario/
+├── empresa/
+│ └── NombreEmpresa/
+│ └── NombreTrabajo/
+│ └── Documentacion/
+│ └── documentacion.xlsx
+├── public/
+│ └── index.html
+├── formulario.js
+├── lanzar-servidor.bat
+├── README.md
+
+## 📦 Instalación y ejecución
+### 1. Clona el repositorio
+git clone https://github.com/Eyra0405/Formulario.git
+cd Formulario
+npm install
+node formulario.js
+http://localhost:3000/
+
+## 📋 Requisitos
+Node.js instalado
+
+Google Chrome instalado (si usas el .bat)
+
+Windows (para usar el .bat o PowerShell)
