@@ -14,11 +14,13 @@
     button:hover { background-color: #45a049; }
     .btn-secondary { background-color: #2196f3; }
     .btn-secondary:hover { background-color: #1976d2; }
+    .btn-columna { background-color: #b6b9bb; }
+    .btn-columna:hover { background-color:#939596; }
   </style>
 </head>
 <body>
 
-<form action="/crear" method="POST">
+<form action="/crear" method="POST" enctype="multipart/form-data">
   <label>Nombre de la empresa:</label>
   <input type="text" name="empresa" required>
 
@@ -31,46 +33,164 @@
     <option value="no">No</option>
   </select>
 
-  <label>Materiales:</label>
-  <div id="materiales">
-    <div class="group">
-      <input type="text" name="material[]" placeholder="Nombre del material">
-      <input type="number" name="cantidad[]" placeholder="Cantidad" min="1">
-    </div>
-  </div>
-  <button type="button" class="btn-secondary" onclick="agregarMaterial()">+ Añadir material</button>
-
   <label>Configuración técnica:</label>
-  <div id="tecnica">
-    <div class="group">
-      <input type="text" name="dispositivo[]" placeholder="Dispositivo">
-      <input type="text" name="ip[]" placeholder="IP asignada">
-    </div>
+
+    <label><input type="checkbox" onchange="toggleSection('camara')"> Cámaras</label>
+    <label><input type="checkbox" onchange="toggleSection('switch')"> Switch</label>
+    <label><input type="checkbox" onchange="toggleSection('firewall')"> Firewall</label>
+    <label><input type="checkbox" onchange="toggleSection('acceso')"> Control de accesos</label>
+    <label><input type="checkbox" onchange="toggleSection('wifi')"> WiFi</label>
+    <label><input type="checkbox" onchange="toggleSection('servidor')"> Servidores</label>
+    <label><input type="checkbox" onchange="toggleSection('finales')"> Dispositivos finales</label>
+    <div class="group" style="flex-direction: column;" >
+    <div id="camara" style="display:none;">
+      <label>Cámaras:</label>
+        <input type="text" name="camara_nombre[]" placeholder="Nombre">
+        <input type="text" name="camara_ip[]" placeholder="IP">
+        <input type="text" name="camara_mac[]" placeholder="MAC">
+        <input type="text" name="camara_cred[]" placeholder="Credenciales">
+        <input type="text" name="camara_patch[]" placeholder="Patch Panel">
+        <button type="button" class="btn-secondary" onclick="agregarCamara()">+ Añadir dispositivo</button>
+      </div>
+    <div id="switch" style="display:none;">
+      <label>Switch:</label>
+        <input type="text" name="switch_nombre[]" placeholder="Nombre">
+        <input type="text" name="switch_ip[]" placeholder="IP">
+        <input type="text" name="switch_ubicacion[]" placeholder="Ubicación">
+        <button type="button" class="btn-secondary" onclick="agregarSwitch()">+ Añadir dispositivo</button>
+      </div>
+    <div id="firewall" style="display:none;">
+      <label>Firewall:</label>
+        <input type="text" name="firewall_nombre[]" placeholder="Nombre">
+        <input type="text" name="firewall_ip[]" placeholder="IP">
+        <input type="text" name="firewall_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="firewall_ubicacion[]" placeholder="Ubicación">
+        <button type="button" class="btn-secondary" onclick="agregarFirewall()">+ Añadir dispositivo</button>
+      </div>
+    <div id="acceso" style="display:none;">
+      <label>Control de Accesos:</label>
+        <input type="text" name="acceso_nombre[]" placeholder="Nombre">
+        <input type="text" name="acceso_ip[]" placeholder="IP">
+        <input type="text" name="acceso_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="acceso_ubicacion[]" placeholder="Ubicación">
+        <button type="button" class="btn-secondary" onclick="agregarControlAccesos()">+ Añadir dispositivo</button>
+      </div>
+    <div id="wifi" style="display:none;">
+      <label>Punto de Accesos WiFi:</label>
+        <input type="text" name="wifi_nombre[]" placeholder="Nombre">
+        <input type="text" name="wifi_ip[]" placeholder="IP">
+        <input type="text" name="wifi_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="wifi_ubicacion[]" placeholder="Ubicación">
+        <button type="button" class="btn-secondary" onclick="agregarWifi()">+ Añadir dispositivo</button>
+      </div>
+    <div id="servidor" style="display:none;">
+      <label>Servidores:</label>
+        <input type="text" name="servidor_nombre[]" placeholder="Nombre">
+        <input type="text" name="servidor_ip[]" placeholder="IP">
+        <input type="text" name="servidor_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="servidor_ubicacion[]" placeholder="Ubicación">
+        <button type="button" class="btn-secondary" onclick="agregarServidores()">+ Añadir dispositivo</button>
+      </div>
+    <div id="finales" style="display:none;">
+      <label>Dispositivos Finales:</label>
+        <input type="text" name="final_nombre[]" placeholder="Nombre">
+        <input type="text" name="final_ip[]" placeholder="IP">
+        <input type="text" name="final_mac[]" placeholder="Dirección MAC">
+        <input type="text" name="final_credenciales[]" placeholder="Credenciales">
+        <input type="text" name="final_patch[]" placeholder="Patch Panel">
+        <button type="button" class="btn-secondary" onclick="agregarDispositivoFinal()">+ Añadir dispositivo</button>
+      </div>  
   </div>
-  <button type="button" class="btn-secondary" onclick="agregarTecnico()">+ Añadir dispositivo</button>
+</div>
+
+  <label>Subir archivos:</label>
+  <input type="file" name="archivos" multiple>
 
   <button type="submit">Crear estructura</button>
 </form>
 
 <script>
-  function agregarMaterial() {
+  function agregarCamara() {
     const div = document.createElement('div');
     div.classList.add('group');
     div.innerHTML = `
-      <input type="text" name="material[]" placeholder="Nombre del material">
-      <input type="number" name="cantidad[]" placeholder="Cantidad" min="1">
-    `;
-    document.getElementById('materiales').appendChild(div);
-  }
-
-  function agregarTecnico() {
-    const div = document.createElement('div');
-    div.classList.add('group');
-    div.innerHTML = `
-      <input type="text" name="dispositivo[]" placeholder="Dispositivo">
-      <input type="text" name="ip[]" placeholder="IP asignada">
+      <input type="text" name="camara_nombre[]" placeholder="Nombre">
+        <input type="text" name="camara_ip[]" placeholder="IP">
+        <input type="text" name="camara_mac[]" placeholder="MAC">
+        <input type="text" name="camara_cred[]" placeholder="Credenciales">
+        <input type="text" name="camara_patch[]" placeholder="Patch Panel">
     `;
     document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarSwitch() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+      <input type="text" name="switch_nombre[]" placeholder="Nombre">
+        <input type="text" name="switch_ip[]" placeholder="IP">
+        <input type="text" name="switch_ubicacion[]" placeholder="Ubicación">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarFirewall() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+     <input type="text" name="firewall_nombre[]" placeholder="Nombre">
+        <input type="text" name="firewall_ip[]" placeholder="IP">
+        <input type="text" name="firewall_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="firewall_ubicacion[]" placeholder="Ubicación">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarControlAccesos() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+<input type="text" name="firewall_nombre[]" placeholder="Nombre">
+        <input type="text" name="firewall_ip[]" placeholder="IP">
+        <input type="text" name="firewall_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="firewall_ubicacion[]" placeholder="Ubicación">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarWifi() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+<input type="text" name="firewall_nombre[]" placeholder="Nombre">
+        <input type="text" name="firewall_ip[]" placeholder="IP">
+        <input type="text" name="firewall_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="firewall_ubicacion[]" placeholder="Ubicación">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarServidores() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+<input type="text" name="firewall_nombre[]" placeholder="Nombre">
+        <input type="text" name="firewall_ip[]" placeholder="IP">
+        <input type="text" name="firewall_interconexion[]" placeholder="Interconexión">
+        <input type="text" name="firewall_ubicacion[]" placeholder="Ubicación">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function agregarDispositivoFinal() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+      <input type="text" name="final_nombre[]" placeholder="Nombre">
+        <input type="text" name="final_ip[]" placeholder="IP">
+        <input type="text" name="final_mac[]" placeholder="Dirección MAC">
+        <input type="text" name="final_credenciales[]" placeholder="Credenciales">
+        <input type="text" name="final_patch[]" placeholder="Patch Panel">
+    `;
+    document.getElementById('tecnica').appendChild(div);
+  }
+  function toggleSection(id) {
+    const section = document.getElementById(id);
+    section.style.display = section.style.display === 'none' ? 'block' : 'none';
   }
 </script>
 
