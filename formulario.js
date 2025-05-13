@@ -53,7 +53,7 @@ app.post('/crear', upload.array('archivos'), (req, res) => {
     if (documentacion) {
       const workbook = xlsx.utils.book_new();
 
-      // Hoja 1: General
+      // Hoja 1: Info Empresa
       const infoGeneral = [
         ['Empresa', empresa],
         ['Trabajo', trabajo],
@@ -62,7 +62,7 @@ app.post('/crear', upload.array('archivos'), (req, res) => {
       const infoSheet = xlsx.utils.aoa_to_sheet(infoGeneral);
       xlsx.utils.book_append_sheet(workbook, infoSheet, 'General');
 
-      // Hoja 2: Materiales
+      // Hoja 2:
       const materiales = [['Cantidad', 'Material']];
       if (Array.isArray(req.body.material)) {
         req.body.material.forEach((mat, i) => {
@@ -75,7 +75,7 @@ app.post('/crear', upload.array('archivos'), (req, res) => {
       const matSheet = xlsx.utils.aoa_to_sheet(materiales);
       xlsx.utils.book_append_sheet(workbook, matSheet, 'Materiales');
 
-      // Hoja 3: Técnico
+      // Hoja 3: Cámaras
       const tecnica = [['Dispositivo', 'IP asignada', '']];
       if (Array.isArray(req.body.dispositivo)) {
         req.body.dispositivo.forEach((dev, i) => {
@@ -87,7 +87,12 @@ app.post('/crear', upload.array('archivos'), (req, res) => {
       }
       const ipSheet = xlsx.utils.aoa_to_sheet(tecnica);
       xlsx.utils.book_append_sheet(workbook, ipSheet, 'Técnico');
-
+      // Hoja 4: Switch 
+      // Hoja 5: Firewall
+      // Hoja 6: Control de Accesos
+      // Hoja 7: Ap 
+      // Hoja 8: Servidores
+      // Hoja 9: Cámaras
       // Guardar Excel
       const docFile = path.join(docPath, 'documentacion.xlsx');
       xlsx.writeFile(workbook, docFile);
