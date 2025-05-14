@@ -32,11 +32,11 @@ Inventario/
 
 ## 📦 Instalación y ejecución
 ### 1. Clona el repositorio
-git clone https://github.com/Eyra0405/Formulario.git
-cd Formulario
-npm install
-node formulario.js
-http://localhost:3000/
+### 2. git clone https://github.com/Eyra0405/Formulario.git
+### 3. cd Formulario
+### 4. npm install
+### 5. ejecuta el .bat
+
 
 ## 📋 Requisitos
 Node.js instalado
