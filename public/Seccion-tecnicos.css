@@ -1,0 +1,72 @@
+h2{
+        color: aliceblue; 
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        margin-bottom: 2rem; 
+    }
+    h3{
+        color: aliceblue; 
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        margin-bottom: 2rem; 
+    }
+    .checkbox-tecnica { 
+        display:flex; 
+        flex-wrap: wrap; 
+        gap: 10px; 
+    }
+    .checkbox-tecnica label { 
+        display: inline-flex; 
+        align-items: center; 
+        margin-right: 20px;
+    }
+    .btn-secondary { 
+        background-color: hsl(261deg 80% 48%); 
+        color: hsl(0, 0%, 100%);
+         
+    }
+
+    .btn-secondary:hover { 
+        background-color: white; 
+        color: hsl(0, 0%, 1%);
+    }
+    .checkmark:after {
+  content: "";
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  left: 50%;
+  top: 40%;
+  width: 10px;
+  height: 14px;
+  border: 2px solid #0ea021;
+  filter: drop-shadow(0px 0px 10px #0ea021);
+  border-width: 0 2.5px 2.5px 0;
+  transition: .2s linear;
+  transform: translate(-50%, -50%) rotate(-90deg) scale(0.2);
+}
+
+/* Show the checkmark when checked */
+.checkbox-btn input:checked ~ .checkmark:after {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  animation: pulse 1s ease-in;
+}
+
+.checkbox-btn input:checked ~ .checkmark {
+  transform: rotate(45deg);
+  border: none;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1.6);
+  }
+}

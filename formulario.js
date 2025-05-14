@@ -42,58 +42,132 @@ app.post('/crear', upload.array('archivos'), (req, res) => {
 
   const empresaPath = path.join(INVENTARIO_PATH, empresa);
   const trabajoPath = path.join(empresaPath, trabajo);
-  const docPath = path.join(trabajoPath, 'Documentacion');
+  const docFile = path.join(rutasCarpetas['Documentacion'] || trabajoPath, 'documentacion.xlsx');
+
 
   try {
-    if (!fs.existsSync(INVENTARIO_PATH)) fs.mkdirSync(INVENTARIO_PATH);
-    if (!fs.existsSync(empresaPath)) fs.mkdirSync(empresaPath);
-    if (!fs.existsSync(trabajoPath)) fs.mkdirSync(trabajoPath);
-    if (!fs.existsSync(docPath)) fs.mkdirSync(docPath);
+const carpetasSeleccionadas = req.body.carpetas || [];
+const rutasCarpetas = {};
+
+carpetasSeleccionadas.forEach(nombre => {
+  const ruta = path.join(trabajoPath, nombre);
+  if (!fs.existsSync(ruta)) fs.mkdirSync(ruta, { recursive: true });
+  rutasCarpetas[nombre] = ruta;
+});
 
     if (documentacion) {
       const workbook = xlsx.utils.book_new();
 
       // Hoja 1: Info Empresa
-      const infoGeneral = [
-        ['Empresa', empresa],
-        ['Trabajo', trabajo],
-        ['Fecha de creación', new Date().toLocaleString()]
-      ];
+    const infoGeneral = [
+  ['Empresa', empresa],
+  ['Trabajo', trabajo],
+  ['Responsable del proyecto', req.body.responsable || ''],
+  ['Dirección', req.body.direccion || ''],
+  ['Teléfono', req.body.telefono || ''],
+  ['Email', req.body.email || ''],
+  ['Fecha de creación del registro', new Date().toLocaleString()]
+];
       const infoSheet = xlsx.utils.aoa_to_sheet(infoGeneral);
       xlsx.utils.book_append_sheet(workbook, infoSheet, 'General');
+// Hoja 3: Cámaras
+const camaras = [['Nombre', 'IP', 'MAC', 'Credenciales', 'Patch Panel']];
+if (Array.isArray(req.body.camara_nombre)) {
+  req.body.camara_nombre.forEach((_, i) => {
+    camaras.push([
+      req.body.camara_nombre[i] || '',
+      req.body.camara_ip[i] || '',
+      req.body.camara_mac[i] || '',
+      req.body.camara_cred[i] || '',
+      req.body.camara_patch[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(camaras), 'Cámaras');
 
-      // Hoja 2:
-      const materiales = [['Cantidad', 'Material']];
-      if (Array.isArray(req.body.material)) {
-        req.body.material.forEach((mat, i) => {
-          const cantidad = req.body.cantidad[i];
-          if (mat && cantidad) {
-            materiales.push([cantidad, mat]);
-          }
-        });
-      }
-      const matSheet = xlsx.utils.aoa_to_sheet(materiales);
-      xlsx.utils.book_append_sheet(workbook, matSheet, 'Materiales');
+// Hoja 4: Switch
+const switches = [['Nombre', 'IP', 'Ubicación']];
+if (Array.isArray(req.body.switch_nombre)) {
+  req.body.switch_nombre.forEach((_, i) => {
+    switches.push([
+      req.body.switch_nombre[i] || '',
+      req.body.switch_ip[i] || '',
+      req.body.switch_ubicacion[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(switches), 'Switch');
 
-      // Hoja 3: Cámaras
-      const tecnica = [['Dispositivo', 'IP asignada', '']];
-      if (Array.isArray(req.body.dispositivo)) {
-        req.body.dispositivo.forEach((dev, i) => {
-          const ip = req.body.ip[i];
-          if (dev && ip) {
-            tecnica.push([dev, ip]);
-          }
-        });
-      }
-      const ipSheet = xlsx.utils.aoa_to_sheet(tecnica);
-      xlsx.utils.book_append_sheet(workbook, ipSheet, 'Técnico');
-      // Hoja 4: Switch 
-      // Hoja 5: Firewall
-      // Hoja 6: Control de Accesos
-      // Hoja 7: Ap 
-      // Hoja 8: Servidores
-      // Hoja 9: Cámaras
-      // Guardar Excel
+// Hoja 5: Firewall
+const firewalls = [['Nombre', 'IP', 'Interconexión', 'Ubicación']];
+if (Array.isArray(req.body.firewall_nombre)) {
+  req.body.firewall_nombre.forEach((_, i) => {
+    firewalls.push([
+      req.body.firewall_nombre[i] || '',
+      req.body.firewall_ip[i] || '',
+      req.body.firewall_interconexion[i] || '',
+      req.body.firewall_ubicacion[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(firewalls), 'Firewall');
+
+// Hoja 6: Control de Accesos
+const accesos = [['Nombre', 'IP', 'Interconexión', 'Ubicación']];
+if (Array.isArray(req.body.acceso_nombre)) {
+  req.body.acceso_nombre.forEach((_, i) => {
+    accesos.push([
+      req.body.acceso_nombre[i] || '',
+      req.body.acceso_ip[i] || '',
+      req.body.acceso_interconexion[i] || '',
+      req.body.acceso_ubicacion[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(accesos), 'Control de Accesos');
+
+// Hoja 7: AP (WiFi)
+const wifi = [['Nombre', 'IP', 'Interconexión', 'Ubicación']];
+if (Array.isArray(req.body.wifi_nombre)) {
+  req.body.wifi_nombre.forEach((_, i) => {
+    wifi.push([
+      req.body.wifi_nombre[i] || '',
+      req.body.wifi_ip[i] || '',
+      req.body.wifi_interconexion[i] || '',
+      req.body.wifi_ubicacion[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(wifi), 'AP');
+
+// Hoja 8: Servidores
+const servidores = [['Nombre', 'IP', 'Interconexión', 'Ubicación']];
+if (Array.isArray(req.body.servidor_nombre)) {
+  req.body.servidor_nombre.forEach((_, i) => {
+    servidores.push([
+      req.body.servidor_nombre[i] || '',
+      req.body.servidor_ip[i] || '',
+      req.body.servidor_interconexion[i] || '',
+      req.body.servidor_ubicacion[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(servidores), 'Servidores');
+
+// Hoja 9: Dispositivos Finales
+const finales = [['Nombre', 'IP', 'MAC', 'Credenciales', 'Patch Panel']];
+if (Array.isArray(req.body.final_nombre)) {
+  req.body.final_nombre.forEach((_, i) => {
+    finales.push([
+      req.body.final_nombre[i] || '',
+      req.body.final_ip[i] || '',
+      req.body.final_mac[i] || '',
+      req.body.final_credenciales[i] || '',
+      req.body.final_patch[i] || '',
+    ]);
+  });
+}
+xlsx.utils.book_append_sheet(workbook, xlsx.utils.aoa_to_sheet(finales), 'Dispositivos Finales');
       const docFile = path.join(docPath, 'documentacion.xlsx');
       xlsx.writeFile(workbook, docFile);
 

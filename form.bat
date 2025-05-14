@@ -1,5 +1,5 @@
 @echo off
-set "jsFilePath=C:\Users\tecnico\Inventario\formulario.js"
+set "jsFilePath=C:\Users\urcol\Desktop\PROYECTOS\Formulario\formulario.js"
 set "chromePath=C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 echo Iniciando servidor Node.js...

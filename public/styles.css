@@ -1,0 +1,104 @@
+   body { 
+    padding: 2rem; 
+    background: radial-gradient(#1d1d1f, #01064b);
+
+}
+
+    form { 
+        padding: 2rem; 
+        border-radius: 10px; 
+        max-width: 600px; 
+        margin: auto; 
+        box-shadow: 0 2px 10px rgba(255, 252, 252, 0.39); 
+
+    }
+    h1{
+        color: aliceblue;
+        font-family: "Poppins", sans-serif;
+        font-weight: 900;
+        font-style: normal; 
+        text-align: center; 
+        margin-bottom: 2rem; 
+    }
+    
+    label { 
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+        color: aliceblue;
+        margin-top: 1rem;
+        display: block; 
+    }
+
+    select { 
+        width: 100%; 
+        padding: 0.5rem; 
+        margin-bottom: 1rem; 
+        border-radius: 20px; 
+        border: 1px solid #cccccc00; 
+    }
+
+    input {
+        background-color: transparent;
+        border: 0;
+        border-bottom: 2px #fff solid;
+        display: block;
+        width: 100%;
+        padding: 15px 0;
+        font-size: 18px;
+        color: #fff;
+    }
+    input:focus, input:valid {
+        outline: 0;
+        border-bottom-color: lightblue;
+    }
+
+    .group { 
+        display: flex;
+        gap: 1rem;
+        align-items: left; 
+        margin-bottom: 0.5rem; 
+        flex-direction: column;
+    }
+
+    .group input { 
+        flex: 1; 
+    }
+
+    button {
+        padding: 17px 40px;
+        align-items: center;
+        border-radius: 50px;
+        cursor: pointer;
+        border: 0;
+        background-color: white;
+        box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-size: 15px;
+        transition: all 0.5s ease;
+        margin-top: 1rem;
+
+    }
+    button:hover {
+        letter-spacing: 3px;
+        background-color: hsl(261deg 80% 48%);
+        color: hsl(0, 0%, 100%);
+        box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+    }
+
+    button:active {
+        letter-spacing: 3px;
+        background-color: hsl(261deg 80% 48%);
+        color: hsl(0, 0%, 100%);
+        box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+        transform: translateY(10px);
+        transition: 100ms;
+    }
+
+
+
+
+
+    
+    
