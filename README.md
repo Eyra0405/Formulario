@@ -35,7 +35,9 @@ Inventario/
 ### 2. git clone https://github.com/Eyra0405/Formulario.git
 ### 3. cd Formulario
 ### 4. npm install
-### 5. ejecuta el .bat
+### 5. abre el .bat (bloc de notas mismo)
+### 6. cambia el primer script por donde hayas descargado el proyecto
+### 7. ejecuta el .bat
 
 
 ## 📋 Requisitos
