@@ -1,3 +1,14 @@
+  function agregarMasterPlan() {
+    const div = document.createElement('div');
+    div.classList.add('group');
+    div.innerHTML = `
+         <h3>Ip_Master_Plan</h3>
+            <input type="text" name="NombreVlan[]" placeholder="Nombre">
+            <input type="text" name="IpVlan[]" placeholder="IP">
+            <input type="text" name="Direccionamiento[]" placeholder="MAC">          
+    `;
+    document.getElementById('MasterPlan').appendChild(div);
+  }
  function agregarCamara() {
     const div = document.createElement('div');
     div.classList.add('group');

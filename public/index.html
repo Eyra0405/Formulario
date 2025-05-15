@@ -21,12 +21,6 @@
         <label for="empresa">Nombre de la empresa:</label>
           <input type="text" name="empresa" required>
 
-        <label for="trabajo">Nombre del trabajo:</label>
-          <input type="text" name="trabajo" required>
-
-        <label for="responsable">Responsable del proyecto:</label>
-          <input type="text" name="responsable">
-
         <label for="direccion">Dirección:</label>
           <input type="text" name="direccion">
 
@@ -37,7 +31,7 @@
           <input type="email" name="email">
     </section>
 
-    <section class="Seccion-carpetas"> 
+  <section class="Seccion-carpetas"> 
   <h2>Carpetas a crear:</h2>
   <div class="checkbox-carpetas">
     <ul class="lista"> 
@@ -97,6 +91,17 @@
     <h2>
       Datos técnicos 
     </h2>
+     <label class="checkbox-btn">
+        <input type="checkbox" onchange="toggleSection('MasterPlan')"> 
+           <span class="checkmark"></span>Master Plan
+      </label>
+        <div id="MasterPlan" style="display:none;">
+          <h3>Ip_Master_Plan</h3>
+            <input type="text" name="NombreVlan[]" placeholder="Nombre">
+            <input type="text" name="IpVlan[]" placeholder="IP">
+            <input type="text" name="Direccionamiento[]" placeholder="MAC">
+            <button type="button" class="btn-secondary" onclick="agregarMasterPlan()">+ Añadir dispositivo</button>
+          </div>
       <label class="checkbox-btn">
         <input type="checkbox" onchange="toggleSection('camara')"> 
            <span class="checkmark"></span>Cámaras
@@ -188,7 +193,8 @@
             <input type="text" name="final_patch[]" placeholder="Patch Panel">
             <button type="button" class="btn-secondary" onclick="agregarDispositivoFinal()">+ Añadir dispositivo</button>
           </div>  
-      
+
+
 
   </section>
   <button  class="boton-crear" type="submit">Crear estructura</button>
